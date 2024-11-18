@@ -14,14 +14,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Install Node.js
+      # 2. Set up Node.js (version LTS recommandée)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '16'
 
       # 3. Install backend dependencies
-      - name: Modify permissions
+      - name: Modify permissions (backend)
         run: |
           cd planify-back
           sudo chmod -R 755 . 
@@ -37,12 +37,9 @@ jobs:
       # 5. Configure environment variables
       - name: Configure database and server environment variables
         run: |
-          # FTP and SSH Variables
           echo "FTP_USERNAME=${{ secrets.FTP_USERNAME }}" >> $GITHUB_ENV 
           echo "FTP_PASSWORD=${{ secrets.FTP_PASSWORD }}" >> $GITHUB_ENV 
           echo "SERVER_HOST=${{ secrets.SERVER_HOST }}" >> $GITHUB_ENV 
-          
-          # Database Variables
           echo "DB_HOST=${{ secrets.PROD_DB_HOST }}" >> $GITHUB_ENV 
           echo "DB_USER=${{ secrets.PROD_DB_USER }}" >> $GITHUB_ENV 
           echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> $GITHUB_ENV 
@@ -53,40 +50,30 @@ jobs:
         run: |
           echo "VUE_APP_URL=https://02@01-web.formation-adapeco-sofip.com" > planify-front/.env
 
-          
-     
-      - name: Install vue-cli-plugin-typescript
-        run: npm install --save-dev @vue/cli-plugin-typescript
-      # 7. Build frontend
-      - name: Check and fix permissions for frontend
+      # 7. Clean and Install frontend dependencies
+      - name: Clean and Install frontend dependencies
         run: |
           cd planify-front
-          sudo chmod -R 755 . 
-      - name: Install frontend dependencies
-        run: |
-          cd planify-front
-          npm cache clean --force
-          npm cache verify
+          sudo chmod -R 755 .
           npm cache clean --force
           rm -rf node_modules
           rm package-lock.json
-          node -v
-          
-          npm install 
+          npm install
 
+      # 8. Build frontend
       - name: Build frontend
         run: |
           cd planify-front
           npx vue-cli-service build
 
-      # 8. Move frontend to backend
+      # 9. Move frontend to backend
       - name: Move frontend to backend
         run: |
           rm -rf planify-back/public
           mkdir -p planify-back/public
           mv planify-front/dist/* planify-back/public/
 
-      # 9. Deploy backend
+      # 10. Deploy backend
       - name: Deploy backend
         run: |
           cd planify-back
