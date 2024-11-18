@@ -49,14 +49,15 @@ jobs:
           echo "VUE_APP_URL=https://02@01-web.formation-adapeco-sofip.com" >> $GITHUB_ENV
 
       # 7. Build frontend
+      - name: Install frontend dependencies
+        run: |
+          cd planify-front
+          npm install
+
       - name: Build frontend
         run: |
           cd planify-front
-          pwd
-          ls
-          npm install
-          npm run build
-
+          npx vue-cli-service build --legacy-peer-deps
       # 8. Move frontend to backend
       - name: Move frontend to backend
         run: |
