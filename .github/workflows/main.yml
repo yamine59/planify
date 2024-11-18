@@ -71,6 +71,7 @@ jobs:
       - name: Build frontend
         run: |
           cd planify-front
+          pwd
           npm run build
 
 
