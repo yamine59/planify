@@ -51,7 +51,6 @@ jobs:
       # 7. Build frontend
       - name: Build frontend
         run: |
-          cd..
           cd planify-front
           pwd
           ls
