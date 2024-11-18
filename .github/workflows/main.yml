@@ -21,6 +21,10 @@ jobs:
           node-version: '16'
 
       # 3. Install backend dependencies
+      - name: Modify permissions
+        run: |
+          cd planify-back
+          sudo chmod -R 755 . 
       - name: Install backend dependencies
         run: |
           cd planify-back
@@ -50,9 +54,16 @@ jobs:
           echo "VUE_APP_URL=https://02@01-web.formation-adapeco-sofip.com" > planify-front/.env
 
       # 7. Build frontend
+      - name: Check and fix permissions for frontend
+        run: |
+          cd planify-front
+          sudo chmod -R 755 . 
       - name: Install frontend dependencies
         run: |
           cd planify-front
+          npm cache clean --force
+          rm -rf node_modules
+          rm package-lock.json
           npm install 
 
       - name: Build frontend
