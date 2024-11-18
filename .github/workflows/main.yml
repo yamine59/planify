@@ -20,7 +20,13 @@ jobs:
         with:
           node-version: '16'
 
-      # 3. Install backend dependencies
+      # 3. Verify Node.js and npm versions
+      - name: Check Node.js and npm versions
+        run: |
+          node -v
+          npm -v
+
+      # 4. Install backend dependencies
       - name: Modify permissions (backend)
         run: |
           cd planify-back
@@ -30,11 +36,11 @@ jobs:
           cd planify-back
           npm install
 
-      # 4. Set NODE_ENV to production
+      # 5. Set NODE_ENV to production
       - name: Set NODE_ENV to production
         run: echo "NODE_ENV=production" >> $GITHUB_ENV
 
-      # 5. Configure environment variables
+      # 6. Configure environment variables
       - name: Configure database and server environment variables
         run: |
           echo "FTP_USERNAME=${{ secrets.FTP_USERNAME }}" >> $GITHUB_ENV 
@@ -45,35 +51,36 @@ jobs:
           echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> $GITHUB_ENV 
           echo "DB_NAME=${{ secrets.PROD_DB_NAME }}" >> $GITHUB_ENV
 
-      # 6. Configure API URL for frontend
+      # 7. Configure API URL for frontend
       - name: Configure API URL
         run: |
           echo "VUE_APP_URL=https://02@01-web.formation-adapeco-sofip.com" > planify-front/.env
 
-      # 7. Clean and Install frontend dependencies
+      # 8. Clean and Install frontend dependencies using npm ci
       - name: Clean and Install frontend dependencies
         run: |
           cd planify-front
           sudo chmod -R 755 .
-          npm cache clean --force
-          rm -rf node_modules
-          rm package-lock.json
           npm ci
 
-      # 8. Build frontend
+      # 9. Install vue-cli-plugin-typescript explicitly
+      - name: Install vue-cli-plugin-typescript explicitly
+        run: npm install --save-dev @vue/cli-plugin-typescript
+
+      # 10. Build frontend
       - name: Build frontend
         run: |
           cd planify-front
           npx vue-cli-service build
 
-      # 9. Move frontend to backend
+      # 11. Move frontend to backend
       - name: Move frontend to backend
         run: |
           rm -rf planify-back/public
           mkdir -p planify-back/public
           mv planify-front/dist/* planify-back/public/
 
-      # 10. Deploy backend
+      # 12. Deploy backend
       - name: Deploy backend
         run: |
           cd planify-back
