@@ -53,12 +53,12 @@ jobs:
       - name: Install frontend dependencies
         run: |
           cd planify-front
-          npm install --legacy-peer-deps
+          npm install 
 
       - name: Build frontend
         run: |
           cd planify-front
-          npx vue-cli-service build
+          npm run build
 
       # 8. Move frontend to backend
       - name: Move frontend to backend
