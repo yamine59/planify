@@ -69,6 +69,7 @@ jobs:
           node -v
           
           npm install 
+          npx vue-cli-service build
 
       - name: Build frontend
         run: |
