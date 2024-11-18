@@ -46,7 +46,7 @@ jobs:
       # 6. Configure API URL
       - name: Configure API URL
         run: |
-          sed -i 's|VUE_APP_URL=.*|VUE_APP_URL=https://02@01-web.formation-adapeco-sofip.com|' planify-front/.env
+          echo "VUE_APP_URL=https://02@01-web.formation-adapeco-sofip.com" >> $GITHUB_ENV
 
       # 7. Build frontend
       - name: Build frontend
