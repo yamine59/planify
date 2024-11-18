@@ -71,7 +71,8 @@ jobs:
       - name: Build frontend
         run: |
           cd planify-front
-          npx vue-cli-service build
+          npm run build
+
 
       # 11. Move frontend to backend
       - name: Move frontend to backend
