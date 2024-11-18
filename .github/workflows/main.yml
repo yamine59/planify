@@ -1,0 +1,67 @@
+name: CI/CD Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Install Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: |
+          cd planify-back
+          npm install
+
+      # 4. Set NODE_ENV to production
+      - name: Set NODE_ENV to production
+        run: echo "NODE_ENV=production" >> $GITHUB_ENV
+
+      # 5. Configure environment variables
+      - name: Configure database and server environment variables
+        run: |
+          # FTP and SSH Variables
+              echo "FTP_USERNAME=${{ secrets.FTP_USERNAME }}" >> $GITHUB_ENV 
+              echo "FTP_PASSWORD=${{ secrets.FTP_PASSWORD }}" >> $GITHUB_ENV 
+              echo "SERVER_HOST=${{ secrets.SERVER_HOST }}" >> $GITHUB_ENV 
+          
+              echo "DB_HOST=${{ secrets.PROD_DB_HOST }}" >> $GITHUB_ENV 
+              echo "DB_USER=${{ secrets.PROD_DB_USER }}" >> $GITHUB_ENV 
+              echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> $GITHUB_ENV 
+              echo "DB_NAME=${{ secrets.PROD_DB_NAME }}" >> $GITHUB_ENV
+
+      # 6. Configure API URL
+      - name: Configure API URL
+        run: |
+          sed -i 's|VUE_APP_URL=.*|VUE_APP_URL=https://02@01-web.formation-adapeco-sofip.com|' planify-front/.env
+
+      # 7. Build frontend
+      - name: Build frontend
+        run: |
+          cd planify-front
+          npm install
+          npm run build
+
+      # 8. Move frontend to backend
+      - name: Move frontend to backend
+        run: |
+          mv planify-front/build/* planify-back/public/
+
+      # 9. Deploy backend
+      - name: Deploy backend
+        run: |
+          cd planify-back
+          npm run deploy
