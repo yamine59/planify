@@ -43,7 +43,7 @@ import store from '@/store';
 import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const user = computed(() => store.state.user || {});
-
+const apiUrl = process.env.API_URL;
 onMounted(() => {
     activity();
 
@@ -55,7 +55,7 @@ const listActivity = ref()
 const activity = async () => {
 
     try {
-        const response = await fetch(`http://localhost:3001/activity/showActivity/${route.params.id_travel}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/activity/showActivity/${route.params.id_travel}`, {
             method: 'get',
             headers: {
 

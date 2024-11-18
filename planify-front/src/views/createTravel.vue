@@ -100,7 +100,7 @@ import { User } from '@/types/types';
 import { IoOutlineAirplane, BsCalendar3, PhFillUsers, AkPaper, AnOutlinedDollarCircle } from '@kalimahapps/vue-icons';
 import pdf from '@/components/pdf.vue';
 import { useRoute } from 'vue-router'
-
+const apiUrl = process.env.API_URL;
 const route = useRoute()
 const destination = ref('');
 const arrive = ref('');
@@ -156,7 +156,7 @@ const travel = async () => {
         amount: prix.value,
     }
     try {
-        const response = await fetch(`http://localhost:3001/travel/creationTravel/${userId.value}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/travel/creationTravel/${userId.value}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

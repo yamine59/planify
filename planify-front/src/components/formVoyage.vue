@@ -56,7 +56,7 @@
 <script setup>
 import { ref } from 'vue';
 import selectVille from './selectVille.vue';
-
+const apiUrl = process.env.API_URL;
 const destination = defineModel('destination');
 const arrive = defineModel('arrive');
 const depart = defineModel('depart');
@@ -93,7 +93,7 @@ const searchVille = async () => {
 
 const fetchVille = async (city_name) => {
     try {
-        const response = await fetch(`http://localhost:3001/city/${city_name}`);
+        const response = await fetch(`${process.env.VUE_APP_URL}/city/${city_name}`);
         if (!response.ok) throw new Error(`Erreur lors de la récupération des villes`);
 
         const data = await response.json()

@@ -34,7 +34,7 @@ import myTravelComp from '@/components/myTravelComp.vue';
 import store from '@/store';
 
 const user = computed (() => store.state.user || {});
-
+const apiUrl = process.env.API_URL;
 onMounted(() => {
     list_travel()
 })
@@ -42,7 +42,7 @@ onMounted(() => {
 const listTravel = ref()
 const list_travel = async () => {
     try {
-        const response = await fetch(`http://localhost:3001/travel/showTravel/${user.value.id}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/travel/showTravel/${user.value.id}`, {
             method: 'get',
 
             headers: {

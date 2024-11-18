@@ -40,7 +40,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import store from '@/store';
-
+const apiUrl = process.env.API_URL;
 const user = computed(() => store.state.user || {});
 
 onMounted(() => {
@@ -53,7 +53,7 @@ const id_travel = ref();
 const idtravel = async () => {
 
     try {
-        const response = await fetch(`http://localhost:3001/travel/showTravel/${user.value.id}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/travel/showTravel/${user.value.id}`, {
             method: 'get',
             headers: {
 
@@ -81,7 +81,7 @@ const activity = async () => {
     console.log('compid', id_travel.value);
 
     try {
-        const response = await fetch(`http://localhost:3001/activity/showActivity/${id_travel.value}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/activity/showActivity/${id_travel.value}`, {
             method: 'get',
             headers: {
 

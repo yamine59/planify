@@ -72,7 +72,7 @@ const user = computed(() => store.state.user || {} as User);
 const userId = computed(() => store.state.user?.id || null);
 
 console.log("Utilisateur dans le store :", store.state.user);
-
+const apiUrl = process.env.API_URL;
 
 const verify = (event: Event) => {
     event.preventDefault()
@@ -118,7 +118,7 @@ const travel = async () => {
         amount: prix.value,
     }
     try {
-        const response = await fetch(`http://localhost:3001/travel/creationTravel/${userId.value}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/travel/creationTravel/${userId.value}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

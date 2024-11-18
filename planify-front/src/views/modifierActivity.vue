@@ -72,6 +72,7 @@ import activityAddCom from '@/components/activityAddCom.vue';
 import store from '@/store';
 import router from '@/router';
 import { useRoute, useRouter } from 'vue-router'
+const apiUrl = process.env.API_URL;
 const route = useRoute()
 const user = computed(() => store.state.user || {});
 
@@ -90,7 +91,7 @@ const recap = () => {
 }
 const idtravel = async () => {
     try {
-        const response = await fetch(`http://localhost:3001/travel/showTravel/${user.value.id}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/travel/showTravel/${user.value.id}`, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
@@ -117,7 +118,7 @@ const activity = async () => {
     };
     
     try {
-        const response = await fetch(`http://localhost:3001/activity/creationActivity/${id_travel.value}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/activity/creationActivity/${id_travel.value}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

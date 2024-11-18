@@ -50,7 +50,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { AnOutlinedDelete } from '@kalimahapps/vue-icons';
 const route = useRoute()
 const user = computed(() => store.state.user || {});
-
+const apiUrl = process.env.API_URL;
 onMounted(() => {
     activity();
 
@@ -59,7 +59,7 @@ const listActivity = ref()
 const deleteActivity = async (id_activity,index) => {
 
     try {
-        const response = await fetch(`http://localhost:3001/activity/supprimerActivity/${route.params.id_travel}/${id_activity}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/activity/supprimerActivity/${route.params.id_travel}/${id_activity}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json, text/plain, /',
@@ -82,7 +82,7 @@ const deleteActivity = async (id_activity,index) => {
 const activity = async () => {
 
     try {
-        const response = await fetch(`http://localhost:3001/activity/showActivity/${route.params.id_travel}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/activity/showActivity/${route.params.id_travel}`, {
             method: 'get',
             headers: {
 

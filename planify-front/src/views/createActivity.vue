@@ -79,7 +79,7 @@ const date = ref();
 const lieu = ref();
 const id_travel = ref();
 const refreshKey = ref(0);  // Variable pour gérer le rafraîchissement
-
+const apiUrl = process.env.API_URL;
 onMounted(() => {
     idtravel();
 });
@@ -89,7 +89,7 @@ const recap = () => {
 }
 const idtravel = async () => {
     try {
-        const response = await fetch(`http://localhost:3001/travel/showTravel/${user.value.id}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/travel/showTravel/${user.value.id}`, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ const activity = async () => {
     };
     
     try {
-        const response = await fetch(`http://localhost:3001/activity/creationActivity/${id_travel.value}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/activity/creationActivity/${id_travel.value}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

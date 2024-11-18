@@ -64,7 +64,7 @@
 import { ref } from 'vue';
 import IconPassword from "../components/iconPassword.vue";
 import { useRouter } from 'vue-router';
-
+const apiUrl = process.env.API_URL;
 const router = useRouter()
 
 const username = ref<string>('');
@@ -125,7 +125,7 @@ const register = async () => {
     }
 
     try {
-        const response = await fetch('http://localhost:3001/users/register', {
+        const response = await fetch('${process.env.VUE_APP_URL}/users/register', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

@@ -59,7 +59,7 @@ import store from '@/store';
 import router from '@/router';
 import { useRoute } from 'vue-router'
 const route = useRoute();
-
+const apiUrl = process.env.API_URL;
 const destination = ref('');
 const arrive = ref('');
 const depart = ref('');
@@ -87,7 +87,7 @@ const updateProfil = async () => {
     return
    }
     try {
-        const response = await fetch(`http://localhost:3001/users/modifierProfile/${userId.value}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/users/modifierProfile/${userId.value}`, {
             method: 'PUT',
             body: JSON.stringify(data),
             headers: {
@@ -124,7 +124,7 @@ const login = async () => {
     }
 
     try {
-        const response = await fetch('http://localhost:3001/users/login', {
+        const response = await fetch('${process.env.VUE_APP_URL}/users/login', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -195,7 +195,7 @@ const travel = async () => {
         amount: prix.value,
     }
     try {
-        const response = await fetch(`http://localhost:3001/travel/creationTravel/${userId.value}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/travel/creationTravel/${userId.value}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

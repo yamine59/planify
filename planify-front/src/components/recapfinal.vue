@@ -54,7 +54,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-
+const apiUrl = process.env.API_URL;
 const route = useRoute();
 
 onMounted(() => {
@@ -78,7 +78,7 @@ const formattedDateD = (date) => {
 
 const travel = async () => {
     try {
-        const response = await fetch(`http://localhost:3001/travel/showTheTravel/${route.params.id_travel}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/travel/showTheTravel/${route.params.id_travel}`, {
             method: 'get',
             headers: {
                 'Accept': 'application/json, text/plain, */*',

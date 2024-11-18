@@ -122,7 +122,7 @@ const erreurs = ref<string[]>([])
 
 const user = computed(() => store.state.user || {} as User);
 const userId = computed(() => store.state.user?.id || null);
-
+const apiUrl = process.env.API_URL;
 
 
 const verify = (event: Event) => {
@@ -163,7 +163,7 @@ const formattedDateD = (date:any) => {
 
 const travel = async () => {
     try {
-        const response = await fetch(`http://localhost:3001/travel/showTheTravel/${route.params.id_travel}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/travel/showTheTravel/${route.params.id_travel}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json, text/plain, /',
@@ -205,7 +205,7 @@ const modifyTravel = async () => {
     }
 
     try {
-        const response = await fetch(`http://localhost:3001/travel/modifierTravel/${route.params.id_travel}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/travel/modifierTravel/${route.params.id_travel}`, {
             method: 'PUT',
             body: JSON.stringify(data),
             headers: {
@@ -230,7 +230,7 @@ const modifyTravel = async () => {
 
 const deleteTrvael = async () => {
     try {
-        const response = await fetch(`http://localhost:3001/travel/supprimerTravel/${route.params.id_travel}`, {
+        const response = await fetch(`${process.env.VUE_APP_URL}/travel/supprimerTravel/${route.params.id_travel}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json, text/plain, /',
