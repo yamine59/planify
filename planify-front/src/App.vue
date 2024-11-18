@@ -12,7 +12,7 @@ import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import navbar from './components/navBar.vue';
-//test
+//testff
 const route = useRoute();
 const store = useStore();
 
