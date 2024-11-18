@@ -64,6 +64,8 @@ jobs:
           npm cache clean --force
           rm -rf node_modules
           rm package-lock.json
+          node -v
+          
           npm install 
 
       - name: Build frontend
