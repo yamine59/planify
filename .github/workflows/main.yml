@@ -62,6 +62,8 @@ jobs:
         run: |
           cd planify-front
           npm cache clean --force
+          npm cache verify
+          npm cache clean --force
           rm -rf node_modules
           rm package-lock.json
           node -v
