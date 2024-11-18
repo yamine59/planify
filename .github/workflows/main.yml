@@ -20,8 +20,8 @@ jobs:
         with:
           node-version: '16'
 
-      # 3. Install dependencies
-      - name: Install dependencies
+      # 3. Install backend dependencies
+      - name: Install backend dependencies
         run: |
           cd planify-back
           npm install
@@ -34,34 +34,38 @@ jobs:
       - name: Configure database and server environment variables
         run: |
           # FTP and SSH Variables
-              echo "FTP_USERNAME=${{ secrets.FTP_USERNAME }}" >> $GITHUB_ENV 
-              echo "FTP_PASSWORD=${{ secrets.FTP_PASSWORD }}" >> $GITHUB_ENV 
-              echo "SERVER_HOST=${{ secrets.SERVER_HOST }}" >> $GITHUB_ENV 
+          echo "FTP_USERNAME=${{ secrets.FTP_USERNAME }}" >> $GITHUB_ENV 
+          echo "FTP_PASSWORD=${{ secrets.FTP_PASSWORD }}" >> $GITHUB_ENV 
+          echo "SERVER_HOST=${{ secrets.SERVER_HOST }}" >> $GITHUB_ENV 
           
-              echo "DB_HOST=${{ secrets.PROD_DB_HOST }}" >> $GITHUB_ENV 
-              echo "DB_USER=${{ secrets.PROD_DB_USER }}" >> $GITHUB_ENV 
-              echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> $GITHUB_ENV 
-              echo "DB_NAME=${{ secrets.PROD_DB_NAME }}" >> $GITHUB_ENV
+          # Database Variables
+          echo "DB_HOST=${{ secrets.PROD_DB_HOST }}" >> $GITHUB_ENV 
+          echo "DB_USER=${{ secrets.PROD_DB_USER }}" >> $GITHUB_ENV 
+          echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> $GITHUB_ENV 
+          echo "DB_NAME=${{ secrets.PROD_DB_NAME }}" >> $GITHUB_ENV
 
-      # 6. Configure API URL
+      # 6. Configure API URL for frontend
       - name: Configure API URL
         run: |
-          echo "VUE_APP_URL=https://02@01-web.formation-adapeco-sofip.com" >> $GITHUB_ENV
+          echo "VUE_APP_URL=https://02@01-web.formation-adapeco-sofip.com" > planify-front/.env
 
       # 7. Build frontend
       - name: Install frontend dependencies
         run: |
           cd planify-front
-          npm install
+          npm install --legacy-peer-deps
 
       - name: Build frontend
         run: |
           cd planify-front
-          npx vue-cli-service build --legacy-peer-deps
+          npx vue-cli-service build
+
       # 8. Move frontend to backend
       - name: Move frontend to backend
         run: |
-          mv planify-front/build/* planify-back/public/
+          rm -rf planify-back/public
+          mkdir -p planify-back/public
+          mv planify-front/dist/* planify-back/public/
 
       # 9. Deploy backend
       - name: Deploy backend
