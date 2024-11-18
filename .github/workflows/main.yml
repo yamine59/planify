@@ -58,7 +58,7 @@ jobs:
       - name: Build frontend
         run: |
           cd planify-front
-          npm run build
+          run build
 
       # 8. Move frontend to backend
       - name: Move frontend to backend
