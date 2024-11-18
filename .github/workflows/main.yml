@@ -51,6 +51,7 @@ jobs:
       # 7. Build frontend
       - name: Build frontend
         run: |
+          cd ..
           cd planify-front
           npm install
           npm run build
