@@ -38,7 +38,7 @@ jobs:
 
       # 5. Set NODE_ENV to production
       - name: Set NODE_ENV to production
-        run: echo "NODE_ENV=production" >> $GITHUB_ENV
+        # run: echo "NODE_ENV=production" >> $GITHUB_ENV
 
       # 6. Configure environment variables
       - name: Configure database and server environment variables
